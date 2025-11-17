@@ -16,7 +16,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*',  // Allow all origins for now (configure properly in production)
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 // Request logging
@@ -40,12 +45,9 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: process.env.VERCEL_URL 
-          ? `https://${process.env.VERCEL_URL}` 
-          : `http://localhost:${PORT}`,
-        description: process.env.NODE_ENV === 'production' 
-          ? 'Production API' 
-          : 'Development server'
+        // Use relative URL for same-origin requests (works in both dev and prod)
+        url: '/',
+        description: 'Current environment'
       }
     ],
     components: {

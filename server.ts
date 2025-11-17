@@ -64,10 +64,11 @@ const swaggerOptions = {
       }
     ]
   },
-  apis: [
-    './routes/v1/*.ts',      // Development (TypeScript)
-    './dist/routes/v1/*.js'  // Production (compiled JavaScript)
-  ]
+  // In production, server.js is in dist/, so paths are relative to dist/
+  // In development, server.ts is in root, so paths are relative to root
+  apis: process.env.NODE_ENV === 'production'
+    ? ['./routes/v1/*.js']           // Production: from dist/server.js -> dist/routes/v1/*.js
+    : ['./routes/v1/*.ts']            // Development: from server.ts -> routes/v1/*.ts
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);

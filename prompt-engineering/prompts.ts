@@ -1,5 +1,11 @@
 import { buildCompactSchemaContext } from './schema-context';
-import seedSegments from './data/seed-segments.json';
+import seedSegments from './few-shot-examples/seed-segments.json';
+
+interface SeedSegment {
+  description: string;
+  targetUseCase: string;
+  sqlQuery: string;
+}
 
 /**
  * Main system prompt for segment generation
@@ -82,10 +88,10 @@ export function buildPromptWithContext(
   const schemaContext = buildCompactSchemaContext();
 
   // Select 3 example segments to use as few-shot learning
-  const exampleSegments = seedSegments.slice(0, 3);
+  const exampleSegments = (seedSegments as SeedSegment[]).slice(0, 3);
   const examplesFormatted = exampleSegments
     .map(
-      (seg, idx) => `
+      (seg: SeedSegment, idx: number) => `
 Example ${idx + 1}:
 Description: "${seg.description}"
 Use Case: ${seg.targetUseCase}

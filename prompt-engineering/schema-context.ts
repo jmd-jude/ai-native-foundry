@@ -1,4 +1,4 @@
-import sigSchema from './data/sig-schema.json';
+import sigSchema from '../schemas/sig-v2.json';
 
 interface SchemaField {
   type: string;

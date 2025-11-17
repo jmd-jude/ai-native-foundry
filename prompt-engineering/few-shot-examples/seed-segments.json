@@ -1,0 +1,12 @@
+[
+  {
+    "description": "Affluent millennials in urban areas with verified email addresses",
+    "targetUseCase": "email-marketing",
+    "sqlQuery": "SELECT DISTINCT d.HOUSEHOLD_ID\nFROM DATA d\nINNER JOIN PII p ON d.HOUSEHOLD_ID = p.HOUSEHOLD_ID\nLEFT JOIN EMAIL e ON d.HOUSEHOLD_ID = e.HOUSEHOLD_ID\nWHERE d.AGE_GROUP IN ('30-34', '35-39', '40-44')\n  AND d.INCOME_HH IN ('K. $100,000-$149,999', 'L. $150,000-$174,999', 'M. $175,000-$199,999', 'N. $200,000+')\n  AND p.URBANICITY = 'Urban'\n  AND e.EMAILQUALITYLEVEL >= 7\n  AND e.EMAILOPTIN = 1;"
+  },
+  {
+    "description": "Families with young children interested in outdoor activities",
+    "targetUseCase": "direct-mail",
+    "sqlQuery": "SELECT DISTINCT d.HOUSEHOLD_ID\nFROM DATA d\nINNER JOIN PII p ON d.HOUSEHOLD_ID = p.HOUSEHOLD_ID\nWHERE d.PRESENCE_OF_CHILDREN_CODE IN ('A', 'B')\n  AND d.OUTDOOR_ENTHUSIAST = 'Y'\n  AND d.HOUSEHOLD_SIZE IN ('4', '5', '6+');"
+  }
+]

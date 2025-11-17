@@ -1,0 +1,173 @@
+{
+  "id": "sig-email-focus",
+  "name": "SIG Identity Graph - Email Marketing Focus",
+  "version": "1.0.0",
+  "description": "Optimized subset of SIG identity graph for email marketing campaigns. Emphasizes email quality, deliverability, and compliance.",
+  "parent_schema": "sig-v2",
+  "optimized_for": ["email-marketing", "nurture-campaigns"],
+
+  "tables": {
+    "DATA": {
+      "description": "Core consumer intelligence for email targeting",
+      "primary_key": "HOUSEHOLD_ID",
+      "fields": {
+        "HOUSEHOLD_ID": {
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": true
+        },
+        "ADDRESS_ID": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false
+        },
+        "AGE": {
+          "type": "NUMBER",
+          "nullable": true,
+          "primary_key": false,
+          "marketing_meaning": "Age-based targeting for lifecycle messaging",
+          "ai_instructions": "Use for generational and lifecycle targeting"
+        },
+        "GENDER": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "valid_values": ["Female", "Male"],
+          "marketing_meaning": "Gender-based personalization"
+        },
+        "GENERATION": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "valid_values": [
+            "1. Millennials and Gen Z (1982 and after)",
+            "2. Generation X (1961-1981)",
+            "3. Baby Boomers (1943-1960)",
+            "4. Post-WWII (1942 and before)"
+          ],
+          "marketing_meaning": "Generational targeting for message tone and channel preference"
+        },
+        "INCOME_HH": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "valid_values": [
+            "A. Under $10,000", "B. $10,000-$19,999", "C. $20,000-$29,999",
+            "D. $30,000-$39,999", "E. $40,000-$49,999", "F. $50,000-$59,999",
+            "G. $60,000-$74,999", "H. $75,000-$99,999", "K. $100,000-$149,999",
+            "L. $150,000-$174,999", "M. $175,000-$199,999", "N. $200,000-$249,999",
+            "P. $250-$299K", "Q. $300-$399K", "R. $400-$499K", "S. $500-$699K",
+            "T. $700-$999K", "U. $1MM +"
+          ],
+          "marketing_meaning": "Income-based targeting for product pricing alignment",
+          "ai_instructions": "ALWAYS use IN clause with exact string values. For 'affluent' use values >= 'H. $75,000-$99,999'"
+        },
+        "MARITAL_STATUS": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "valid_values": ["Married", "Single"],
+          "marketing_meaning": "Household structure for family-oriented messaging"
+        }
+      }
+    },
+    "EMAIL": {
+      "description": "Email intelligence - CRITICAL for email campaigns",
+      "primary_key": "HOUSEHOLD_ID",
+      "join_key": "HOUSEHOLD_ID",
+      "join_type": "LEFT JOIN",
+      "fields": {
+        "HOUSEHOLD_ID": {
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": true
+        },
+        "EMAIL": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "marketing_meaning": "Primary email address for campaign delivery",
+          "ai_instructions": "ALWAYS include in SELECT for email campaigns"
+        },
+        "EMAILQUALITYLEVEL": {
+          "type": "NUMBER",
+          "nullable": true,
+          "primary_key": false,
+          "marketing_meaning": "Email deliverability score (1-10, higher is better)",
+          "ai_instructions": "For email campaigns, ALWAYS filter >= 8 for optimal deliverability. Minimum acceptable is 7.",
+          "combination_signals": "Essential for all email campaigns. Higher scores = lower bounce rates and better inbox placement."
+        },
+        "EMAILOPTIN": {
+          "type": "NUMBER",
+          "nullable": true,
+          "primary_key": false,
+          "valid_values": [0, 1],
+          "marketing_meaning": "Email marketing opt-in status (1 = opted in, 0 = not opted in)",
+          "ai_instructions": "ALWAYS filter EMAILOPTIN = 1 for CAN-SPAM compliance",
+          "combination_signals": "REQUIRED for compliant email marketing. Never send to EMAILOPTIN = 0."
+        },
+        "DOMAIN": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "marketing_meaning": "Email domain (ISP vs corporate)",
+          "ai_instructions": "Use to differentiate B2B (corporate domains) vs B2C (ISP domains) targeting"
+        }
+      }
+    },
+    "PII": {
+      "description": "Geographic data for regional email campaigns",
+      "primary_key": "HOUSEHOLD_ID",
+      "join_key": "HOUSEHOLD_ID",
+      "join_type": "LEFT JOIN",
+      "fields": {
+        "HOUSEHOLD_ID": {
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": true
+        },
+        "STATE": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "marketing_meaning": "State for regional email campaigns and compliance"
+        },
+        "ZIP": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "marketing_meaning": "ZIP code for local targeting and personalization"
+        },
+        "URBANICITY_CODE": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "valid_values": ["R", "S", "U"],
+          "marketing_meaning": "Urban/Suburban/Rural classification for lifestyle targeting"
+        }
+      }
+    }
+  },
+
+  "email_campaign_rules": {
+    "required_filters": [
+      "EMAILQUALITYLEVEL >= 8",
+      "EMAILOPTIN = 1",
+      "EMAIL IS NOT NULL"
+    ],
+    "required_fields": [
+      "HOUSEHOLD_ID",
+      "EMAIL",
+      "EMAILQUALITYLEVEL"
+    ],
+    "recommended_size": {
+      "minimum": 10000,
+      "optimal_min": 50000,
+      "optimal_max": 200000,
+      "maximum": 500000
+    },
+    "compliance_notes": "Always verify EMAILOPTIN = 1 for CAN-SPAM compliance. Higher EMAILQUALITYLEVEL reduces bounce rates."
+  },
+
+  "query_template": "SELECT DISTINCT d.HOUSEHOLD_ID, d.ADDRESS_ID, e.EMAIL, e.EMAILQUALITYLEVEL\nFROM DATA d\nLEFT JOIN EMAIL e ON d.HOUSEHOLD_ID = e.HOUSEHOLD_ID\nWHERE e.EMAILQUALITYLEVEL >= 8\n  AND e.EMAILOPTIN = 1\n  AND e.EMAIL IS NOT NULL\n  AND {USER_FILTERS}"
+}

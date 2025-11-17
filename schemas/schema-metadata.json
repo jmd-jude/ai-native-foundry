@@ -1,0 +1,78 @@
+{
+  "version": "1.0.0",
+  "updated": "2025-01-20",
+  "schemas": {
+    "sig-v2": {
+      "id": "sig-v2",
+      "version": "2.0.0",
+      "released": "2025-01-15",
+      "status": "stable",
+      "description": "Full SIG identity graph with comprehensive consumer intelligence",
+      "tables": ["DATA", "PII", "EMAIL", "PHONE"],
+      "field_count": 40,
+      "use_cases": ["general", "email-marketing", "direct-mail", "lookalike", "analytics"],
+      "changelog": [
+        {
+          "version": "2.0.0",
+          "date": "2025-01-15",
+          "changes": "Added semantic annotations for AI optimization"
+        },
+        {
+          "version": "1.5.0",
+          "date": "2024-12-01",
+          "changes": "Added purchase behavior fields"
+        }
+      ],
+      "compatibility": {
+        "snowflake_version": "8.x",
+        "min_api_version": "1.0.0"
+      }
+    },
+    "sig-email-focus": {
+      "id": "sig-email-focus",
+      "version": "1.0.0",
+      "released": "2025-01-20",
+      "status": "stable",
+      "description": "Email marketing optimized subset with strict quality thresholds",
+      "parent_schema": "sig-v2",
+      "tables": ["DATA", "EMAIL", "PII"],
+      "field_count": 15,
+      "use_cases": ["email-marketing", "nurture-campaigns"],
+      "optimization_notes": "Stricter email quality filters (>= 8) and mandatory opt-in compliance",
+      "changelog": [
+        {
+          "version": "1.0.0",
+          "date": "2025-01-20",
+          "changes": "Initial release - email-optimized subset of sig-v2"
+        }
+      ],
+      "compatibility": {
+        "snowflake_version": "8.x",
+        "min_api_version": "1.0.0"
+      }
+    },
+    "sig-direct-mail": {
+      "id": "sig-direct-mail",
+      "version": "1.0.0",
+      "released": "2025-01-20",
+      "status": "stable",
+      "description": "Direct mail optimized subset emphasizing address quality",
+      "parent_schema": "sig-v2",
+      "tables": ["DATA", "PII"],
+      "field_count": 12,
+      "use_cases": ["direct-mail", "postal-campaigns"],
+      "optimization_notes": "Focuses on address quality and household demographics for direct mail ROI",
+      "changelog": [
+        {
+          "version": "1.0.0",
+          "date": "2025-01-20",
+          "changes": "Initial release - direct mail optimized subset of sig-v2"
+        }
+      ],
+      "compatibility": {
+        "snowflake_version": "8.x",
+        "min_api_version": "1.0.0"
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+EMAIL MARKETING OPTIMIZATION RULES:
+
+CRITICAL REQUIREMENTS:
+1. ALWAYS filter EMAILQUALITYLEVEL >= 8 (optimal deliverability)
+2. ALWAYS filter EMAILOPTIN = 1 (CAN-SPAM compliance - REQUIRED)
+3. ALWAYS filter EMAIL IS NOT NULL
+4. ALWAYS include EMAIL field in SELECT
+
+RECOMMENDED PRACTICES:
+1. Use LEFT JOIN for EMAIL table (not all households have email)
+2. Target 50K-200K households for optimal A/B testing
+3. Consider including FIRSTNAME, LASTNAME for personalization
+4. Avoid PHONE fields (not needed for email campaigns)
+
+AUDIENCE SIZING:
+- Minimum viable: 10,000 (statistical significance)
+- Optimal range: 50,000-200,000 (A/B testing + segments)
+- Maximum efficient: 500,000 (segment further if larger)
+
+DELIVERABILITY FOCUS:
+- EMAILQUALITYLEVEL >= 8: Premium deliverability (recommended)
+- EMAILQUALITYLEVEL >= 7: Acceptable deliverability (minimum)
+- EMAILQUALITYLEVEL < 7: High bounce risk (avoid)
+
+COMPLIANCE:
+- EMAILOPTIN = 1 is MANDATORY (federal law requirement)
+- Never send to EMAILOPTIN = 0 or NULL
+- Document opt-in status in campaign records
+
+QUERY STRUCTURE:
+SELECT DISTINCT
+  d.HOUSEHOLD_ID,
+  d.ADDRESS_ID,
+  e.EMAIL,
+  e.EMAILQUALITYLEVEL
+FROM DATA d
+LEFT JOIN EMAIL e ON d.HOUSEHOLD_ID = e.HOUSEHOLD_ID
+WHERE e.EMAILQUALITYLEVEL >= 8
+  AND e.EMAILOPTIN = 1
+  AND e.EMAIL IS NOT NULL
+  AND {additional filters based on user prompt}

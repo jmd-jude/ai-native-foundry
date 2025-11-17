@@ -1,0 +1,39 @@
+DIRECT MAIL OPTIMIZATION RULES:
+
+CRITICAL REQUIREMENTS:
+1. ALWAYS filter ADDRESS_ID IS NOT NULL
+2. ALWAYS include STATE and ZIP in SELECT
+3. Use INNER JOIN for PII table (address is mandatory)
+4. ALWAYS use DISTINCT on HOUSEHOLD_ID
+
+RECOMMENDED PRACTICES:
+1. Target 25K-100K households for optimal ROI
+2. Consider DWELLING_TYPE for apartment vs single-family targeting
+3. Use INCOME_HH for offer relevance and waste reduction
+4. Include URBANICITY_CODE for lifestyle-based creative
+
+AUDIENCE SIZING:
+- Minimum viable: 5,000 (reduces fixed costs)
+- Optimal range: 25,000-100,000 (balances reach and targeting)
+- Maximum efficient: 250,000 (tighter targeting improves ROI)
+
+ADDRESS QUALITY:
+- ADDRESS_ID IS NOT NULL: Ensures valid physical address
+- Consider recent move date for address accuracy
+- Urban vs rural affects delivery cost and creative
+
+COST OPTIMIZATION:
+- Tighter income targeting reduces waste
+- Lifestyle filters improve response rates
+- Regional campaigns optimize postage costs
+
+QUERY STRUCTURE:
+SELECT DISTINCT
+  d.HOUSEHOLD_ID,
+  d.ADDRESS_ID,
+  p.STATE,
+  p.ZIP
+FROM DATA d
+INNER JOIN PII p ON d.HOUSEHOLD_ID = p.HOUSEHOLD_ID
+WHERE p.ADDRESS_ID IS NOT NULL
+  AND {additional filters based on user prompt}

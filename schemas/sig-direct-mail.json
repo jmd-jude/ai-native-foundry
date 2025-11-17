@@ -1,0 +1,127 @@
+{
+  "id": "sig-direct-mail",
+  "name": "SIG Identity Graph - Direct Mail Focus",
+  "version": "1.0.0",
+  "description": "Optimized subset of SIG identity graph for direct mail campaigns. Emphasizes address quality and household demographics.",
+  "parent_schema": "sig-v2",
+  "optimized_for": ["direct-mail", "postal-campaigns"],
+
+  "tables": {
+    "DATA": {
+      "description": "Core consumer intelligence for direct mail targeting",
+      "primary_key": "HOUSEHOLD_ID",
+      "fields": {
+        "HOUSEHOLD_ID": {
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": true
+        },
+        "ADDRESS_ID": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "marketing_meaning": "Physical address identifier - CRITICAL for direct mail"
+        },
+        "AGE": {
+          "type": "NUMBER",
+          "nullable": true,
+          "primary_key": false,
+          "marketing_meaning": "Age for personalized messaging and offer relevance"
+        },
+        "GENDER": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "valid_values": ["Female", "Male"]
+        },
+        "INCOME_HH": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "valid_values": [
+            "A. Under $10,000", "B. $10,000-$19,999", "C. $20,000-$29,999",
+            "D. $30,000-$39,999", "E. $40,000-$49,999", "F. $50,000-$59,999",
+            "G. $60,000-$74,999", "H. $75,000-$99,999", "K. $100,000-$149,999",
+            "L. $150,000-$174,999", "M. $175,000-$199,999", "N. $200,000-$249,999",
+            "P. $250-$299K", "Q. $300-$399K", "R. $400-$499K", "S. $500-$699K",
+            "T. $700-$999K", "U. $1MM +"
+          ],
+          "marketing_meaning": "Income targeting for direct mail offer relevance and ROI",
+          "ai_instructions": "ALWAYS use IN clause with exact string values"
+        },
+        "MARITAL_STATUS": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "valid_values": ["Married", "Single"]
+        },
+        "CHILDREN_HH": {
+          "type": "NUMBER",
+          "nullable": true,
+          "primary_key": false,
+          "marketing_meaning": "Number of children in household for family targeting"
+        },
+        "DWELLING_TYPE": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "valid_values": ["Multi Family Dwelling/Apartment", "Single Family"],
+          "marketing_meaning": "Housing type affects direct mail deliverability and targeting"
+        }
+      }
+    },
+    "PII": {
+      "description": "Address and geographic data - CRITICAL for direct mail",
+      "primary_key": "HOUSEHOLD_ID",
+      "join_key": "HOUSEHOLD_ID",
+      "join_type": "INNER JOIN",
+      "fields": {
+        "HOUSEHOLD_ID": {
+          "type": "TEXT",
+          "nullable": false,
+          "primary_key": true
+        },
+        "STATE": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "marketing_meaning": "State for regional campaigns and postage optimization"
+        },
+        "ZIP": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "marketing_meaning": "ZIP code for carrier route sorting and local targeting"
+        },
+        "URBANICITY_CODE": {
+          "type": "TEXT",
+          "nullable": true,
+          "primary_key": false,
+          "valid_values": ["R", "S", "U"],
+          "marketing_meaning": "Urban/Suburban/Rural for lifestyle-based creative"
+        }
+      }
+    }
+  },
+
+  "direct_mail_rules": {
+    "required_filters": [
+      "ADDRESS_ID IS NOT NULL"
+    ],
+    "required_fields": [
+      "HOUSEHOLD_ID",
+      "ADDRESS_ID",
+      "STATE",
+      "ZIP"
+    ],
+    "recommended_size": {
+      "minimum": 5000,
+      "optimal_min": 25000,
+      "optimal_max": 100000,
+      "maximum": 250000
+    },
+    "targeting_notes": "Direct mail ROI improves with tighter targeting. Consider income and lifestyle filters to reduce waste."
+  },
+
+  "query_template": "SELECT DISTINCT d.HOUSEHOLD_ID, d.ADDRESS_ID, p.STATE, p.ZIP\nFROM DATA d\nINNER JOIN PII p ON d.HOUSEHOLD_ID = p.HOUSEHOLD_ID\nWHERE p.ADDRESS_ID IS NOT NULL\n  AND {USER_FILTERS}"
+}

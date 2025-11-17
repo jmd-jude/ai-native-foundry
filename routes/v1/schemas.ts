@@ -10,7 +10,7 @@ const router = Router();
  * /v1/schemas:
  *   get:
  *     summary: List available schemas
- *     description: Returns a list of all available identity graph schemas that can be used for SQL generation.
+ *     description: Returns a list of all available semantically enriched schemas. Programmatically teach AI agents necessary business logic.
  *     tags:
  *       - Schemas
  *     security:
@@ -101,7 +101,7 @@ router.get('/', validateApiKey, (req: AuthenticatedRequest, res: Response) => {
  *         required: true
  *         schema:
  *           type: string
- *         description: Schema identifier (e.g., "sig-v2")
+ *         description: Schema identifier (e.g., "demo-graph-v1")
  *     responses:
  *       200:
  *         description: Successfully retrieved schema

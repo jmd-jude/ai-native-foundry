@@ -2,12 +2,12 @@
   "version": "1.0.0",
   "updated": "2025-01-20",
   "schemas": {
-    "sig-v2": {
-      "id": "sig-v2",
+    "demo-graph-v1": {
+      "id": "demo-graph-v1",
       "version": "2.0.0",
       "released": "2025-01-15",
       "status": "stable",
-      "description": "Full SIG identity graph with comprehensive consumer intelligence",
+      "description": "Full identity graph with comprehensive consumer intelligence",
       "tables": ["DATA", "PII", "EMAIL", "PHONE"],
       "field_count": 40,
       "use_cases": ["general", "email-marketing", "direct-mail", "lookalike", "analytics"],
@@ -28,13 +28,13 @@
         "min_api_version": "1.0.0"
       }
     },
-    "sig-email-focus": {
-      "id": "sig-email-focus",
+    "email-optimized-v1": {
+      "id": "email-optimized-v1",
       "version": "1.0.0",
       "released": "2025-01-20",
       "status": "stable",
       "description": "Email marketing optimized subset with strict quality thresholds",
-      "parent_schema": "sig-v2",
+      "parent_schema": "demo-graph-v1",
       "tables": ["DATA", "EMAIL", "PII"],
       "field_count": 15,
       "use_cases": ["email-marketing", "nurture-campaigns"],
@@ -43,7 +43,7 @@
         {
           "version": "1.0.0",
           "date": "2025-01-20",
-          "changes": "Initial release - email-optimized subset of sig-v2"
+          "changes": "Initial release - email-optimized subset of demo-graph-v1"
         }
       ],
       "compatibility": {
@@ -51,13 +51,13 @@
         "min_api_version": "1.0.0"
       }
     },
-    "sig-direct-mail": {
-      "id": "sig-direct-mail",
+    "direct-mail-optimized-v1": {
+      "id": "direct-mail-optimized-v1",
       "version": "1.0.0",
       "released": "2025-01-20",
       "status": "stable",
       "description": "Direct mail optimized subset emphasizing address quality",
-      "parent_schema": "sig-v2",
+      "parent_schema": "demo-graph-v1",
       "tables": ["DATA", "PII"],
       "field_count": 12,
       "use_cases": ["direct-mail", "postal-campaigns"],
@@ -66,7 +66,7 @@
         {
           "version": "1.0.0",
           "date": "2025-01-20",
-          "changes": "Initial release - direct mail optimized subset of sig-v2"
+          "changes": "Initial release - direct mail optimized subset of demo-graph-v1"
         }
       ],
       "compatibility": {

@@ -30,8 +30,8 @@ const router = Router();
  *               schema:
  *                 type: string
  *                 description: Schema identifier (for reference only)
- *                 default: "sig-v2"
- *                 example: "sig-v2"
+ *                 default: "demo-graph-v1"
+ *                 example: "demo-graph-v1"
  *     responses:
  *       200:
  *         description: Validation complete
@@ -76,7 +76,7 @@ const router = Router();
  */
 router.post('/', validateApiKey, async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const { sql, schema = 'sig-v2' } = req.body;
+    const { sql, schema = 'demo-graph-v1' } = req.body;
 
     if (!sql || typeof sql !== 'string') {
       res.status(400).json({

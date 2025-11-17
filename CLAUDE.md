@@ -43,7 +43,7 @@ The system translates natural language (e.g., "affluent millennials in urban are
    - **Critical Pattern**: Enumerated fields (INCOME_HH, NET_WORTH_HH) MUST use `IN (...)` syntax, NEVER `>=` operators (text comparison fails)
 
 2. **Semantic Schema Library** (`schemas/`)
-   - **sig-v2.json**: Primary identity graph schema with rich semantic annotations
+   - **demo-graph-v1.json**: Primary identity graph schema with rich semantic annotations
    - Each field has `marketing_meaning`, `ai_instructions`, `creative_potential` metadata
    - Schema drives both prompt construction AND validation
    - **Valid Values Arrays**: Pre-defined enumerations that must be used exactly as defined
@@ -110,7 +110,7 @@ INCOME_HH >= 'K. $100,000'  -- ❌ Never do this
 
 ### Adding New Schemas
 1. Create `schemas/{schema-id}.json` with semantic annotations
-2. Follow sig-v2.json structure: tables → fields → metadata
+2. Follow demo-graph-v1.json structure: tables → fields → metadata
 3. Include `marketing_meaning`, `ai_instructions`, `creative_potential` for all fields
 4. Define `valid_values` arrays for enumerated fields
 
@@ -141,7 +141,7 @@ DEMO_API_KEY=sk_test_demo123456789    # Phase 1 auth key
 Per `z-PRDs/PHASE I - Build Spec.md`:
 
 **Completed** (copied from POC):
-- ✅ Schema files (sig-v2.json)
+- ✅ Schema files (demo-graph-v1.json)
 - ✅ Schema context builder (schema-context.ts)
 - ✅ System prompts structure (prompts.ts)
 - ✅ Generate endpoint skeleton (generate.ts - needs refactoring)
@@ -164,7 +164,7 @@ Per `z-PRDs/PHASE I - Build Spec.md`:
 ### Accessing Schemas
 ```typescript
 import { loadSchema } from '../prompt-engineering/prompt-builder';
-const schema = loadSchema('sig-v2');
+const schema = loadSchema('demo-graph-v1');
 ```
 
 ### Building Prompts
@@ -172,7 +172,7 @@ const schema = loadSchema('sig-v2');
 import { buildPrompt } from '../prompt-engineering/prompt-builder';
 const prompt = buildPrompt({
   userPrompt: "affluent families",
-  schemaId: "sig-v2",
+  schemaId: "demo-graph-v1",
   useCase: "email-marketing",
   constraints: { minSize: 50000, requireEmail: true }
 });
@@ -184,7 +184,7 @@ import { validateSyntax } from '../validation/syntax-validator';
 import { validateAgainstSchema } from '../validation/schema-validator';
 
 const syntaxResult = validateSyntax(sql);
-const schemaResult = validateAgainstSchema(sql, 'sig-v2');
+const schemaResult = validateAgainstSchema(sql, 'demo-graph-v1');
 const isValid = syntaxResult.isValid && schemaResult.isValid;
 ```
 
@@ -200,7 +200,7 @@ const isValid = syntaxResult.isValid && schemaResult.isValid;
 ```json
 {
   "prompt": "Affluent millennials in urban areas with high email quality",
-  "schema": "sig-v2",
+  "schema": "demo-graph-v1",
   "useCase": "email-marketing",
   "constraints": {
     "minSize": 50000,

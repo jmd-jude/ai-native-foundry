@@ -28,9 +28,9 @@ function getAnthropicClient() {
  * /v1/generate:
  *   post:
  *     summary: Generate SQL from natural language
- *     description: Converts a natural language audience description into a production-ready SQL query for identity graph activation.
+ *     description: Converts a natural language audience description into a SQL query for identity graph discovery & activation.
  *     tags:
- *       - Generation
+ *       - Generate SQL Query
  *     security:
  *       - ApiKeyAuth: []
  *     requestBody:
@@ -49,8 +49,8 @@ function getAnthropicClient() {
  *               schema:
  *                 type: string
  *                 description: Schema identifier to use
- *                 default: "sig-v2"
- *                 example: "sig-v2"
+ *                 default: "demo-graph-v1"
+ *                 example: "demo-graph-v1"
  *               useCase:
  *                 type: string
  *                 description: Marketing use case (affects query optimization)
@@ -139,7 +139,7 @@ router.post('/', validateApiKey, async (req: AuthenticatedRequest, res: Response
   try {
     const {
       prompt,
-      schema = 'sig-v2',
+      schema = 'demo-graph-v1',
       useCase,
       constraints
     } = req.body;

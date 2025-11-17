@@ -11,7 +11,7 @@ const router = Router();
  *     summary: Preview query results
  *     description: Executes SQL query against Snowflake and returns sample data (limited rows). Also estimates total audience size.
  *     tags:
- *       - Execution
+ *       - Data Preview
  *     security:
  *       - ApiKeyAuth: []
  *     requestBody:

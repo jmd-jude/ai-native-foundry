@@ -9,7 +9,7 @@ const router = Router();
  *     summary: Health check
  *     description: Returns API health status and basic system information.
  *     tags:
- *       - System
+ *       - Health Check
  *     responses:
  *       200:
  *         description: API is healthy

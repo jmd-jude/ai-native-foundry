@@ -35,19 +35,19 @@ const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'AI-Native Foundation API',
+      title: 'AI-Native Semantic Foundry API',
       version: '1.0.0',
-      description: 'Semantic SQL generation API for identity graphs. Converts natural language audience descriptions into production-ready SQL queries.',
+      description: 'Semantic context and SQL generation API for identity graph agents.',
       contact: {
         name: 'API Support',
-        email: 'support@semantic-sql.ai'
+        email: 'jude@two-to-one.org'
       }
     },
     servers: [
       {
         // Use relative URL for same-origin requests (works in both dev and prod)
         url: '/',
-        description: 'Current environment'
+        description: 'demo'
       }
     ],
     components: {

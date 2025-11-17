@@ -1,9 +1,9 @@
 {
-  "id": "sig-direct-mail",
-  "name": "SIG Identity Graph - Direct Mail Focus",
+  "id": "direct-mail-optimized-v1",
+  "name": "Identity Graph - Direct Mail Focus",
   "version": "1.0.0",
-  "description": "Optimized subset of SIG identity graph for direct mail campaigns. Emphasizes address quality and household demographics.",
-  "parent_schema": "sig-v2",
+  "description": "Optimized subset of identity graph for direct mail campaigns. Emphasizes address quality and household demographics.",
+  "parent_schema": "demo-graph-v1",
   "optimized_for": ["direct-mail", "postal-campaigns"],
 
   "tables": {

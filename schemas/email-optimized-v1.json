@@ -1,9 +1,9 @@
 {
-  "id": "sig-email-focus",
-  "name": "SIG Identity Graph - Email Marketing Focus",
+  "id": "email-optimized-v1",
+  "name": "Identity Graph - Email Marketing Focus",
   "version": "1.0.0",
   "description": "Optimized subset of SIG identity graph for email marketing campaigns. Emphasizes email quality, deliverability, and compliance.",
-  "parent_schema": "sig-v2",
+  "parent_schema": "demo-graph-v1",
   "optimized_for": ["email-marketing", "nurture-campaigns"],
 
   "tables": {

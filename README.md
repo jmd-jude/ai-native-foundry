@@ -57,7 +57,7 @@ This provides an interactive Swagger UI for testing all endpoints.
 ```json
 {
   "prompt": "Affluent millennials in urban areas with high email quality",
-  "schema": "sig-v2",
+  "schema": "demo-graph-v1",
   "useCase": "email-marketing",
   "constraints": {
     "minSize": 50000,
@@ -75,7 +75,7 @@ curl -X POST http://localhost:4000/v1/generate \
   -H "Content-Type: application/json" \
   -d '{
     "prompt": "affluent families with children",
-    "schema": "sig-v2"
+    "schema": "demo-graph-v1"
   }'
 ```
 

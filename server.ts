@@ -65,7 +65,10 @@ const swaggerOptions = {
       }
     ]
   },
-  apis: ['./api/v1/*.ts'] // Path to API route files with JSDoc comments
+  apis: [
+    './api/v1/*.ts',      // Development (TypeScript)
+    './dist/api/v1/*.js'  // Production (compiled JavaScript)
+  ]
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
@@ -102,8 +105,13 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 AI-Native Foundation API running on http://localhost:${PORT}`);
-  console.log(`📚 API Documentation: http://localhost:${PORT}/api-docs`);
-});
+// Start server (only when not in Vercel serverless environment)
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 AI-Native Foundation API running on http://localhost:${PORT}`);
+    console.log(`📚 API Documentation: http://localhost:${PORT}/api-docs`);
+  });
+}
+
+// Export for Vercel serverless
+export default app;

@@ -3,5 +3,16 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": null,
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api/index"
+    }
+  ]
 }

@@ -3,11 +3,11 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import { generateRouter } from './api/v1/generate';
-import { schemasRouter } from './api/v1/schemas';
-import { healthRouter } from './api/v1/health';
-import { validateRouter } from './api/v1/validate';
-import { previewRouter } from './api/v1/preview';
+import { generateRouter } from './routes/v1/generate';
+import { schemasRouter } from './routes/v1/schemas';
+import { healthRouter } from './routes/v1/health';
+import { validateRouter } from './routes/v1/validate';
+import { previewRouter } from './routes/v1/preview';
 
 // Load environment variables
 dotenv.config();
@@ -66,8 +66,8 @@ const swaggerOptions = {
     ]
   },
   apis: [
-    './api/v1/*.ts',      // Development (TypeScript)
-    './dist/api/v1/*.js'  // Production (compiled JavaScript)
+    './routes/v1/*.ts',      // Development (TypeScript)
+    './dist/routes/v1/*.js'  // Production (compiled JavaScript)
   ]
 };
 

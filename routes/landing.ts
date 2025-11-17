@@ -72,7 +72,7 @@ router.get('/', (req: Request, res: Response) => {
       color: #6e6e73;
       margin-bottom: 50px;
       line-height: 1.5;
-      max-width: 700px;
+      max-width: 1000px;
     }
     
     .value-props {
@@ -226,7 +226,7 @@ router.get('/', (req: Request, res: Response) => {
     <h1>Semantic Foundry for AI-Native Identity Marketing Graphs</h1>
     
     <p class="tagline">
-      Semantic intelligence layers that make AI agents understand marketing, not just databases
+      Semantic intelligence assets that make AI agents useful in marketing workflows, not just SQL analysts
     </p>
     
     <p class="subtext">
